@@ -127,5 +127,5 @@ function openCvReady() {
 
 // Call the openCvReady function after start to ensure the model is loaded
 start().then(() => {
-    openCvReady();
+    await openCvReady();
 });
