@@ -56,7 +56,10 @@ function openCvReady() {
                     canvasCtx.font = "50px Arial";
                     canvasCtx.fillStyle = "red";
                     canvasCtx.textAlign = "center";
-
+                    
+                    // Hide the "No face found" message
+                    roiCtx.style.display = 'block';
+                    noFaceFoundElement.style.display = 'none';
                     if (tfliteModel && isModelLoaded) {
                         // Perform the prediction
                         const outputTensor = tf.tidy(() => {
@@ -77,16 +80,8 @@ function openCvReady() {
                         // Round the prediction
                         let predict = Math.round(outputTensor[0]);
 
-                        if (isNaN(predict) || predict === undefined) {
-                            canvasCtx.fillText("Age : Not available", center, sy - 50);
-                        } else {
-                            console.log(predict);
-                            canvasCtx.fillText("Age : " + predict + " y.o.", center, sy - 50);
-                        }
-
-                        // Hide the "No face found" message
-                        roiCtx.style.display = 'block';
-                        noFaceFoundElement.style.display = 'none';
+                        console.log(predict);
+                        canvasCtx.fillText("Age : " + predict + " y.o.", center, sy - 50);
                     } else {
                         canvasCtx.fillText("Loading the model", center, sy - 50);
                     }
