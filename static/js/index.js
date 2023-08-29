@@ -7,10 +7,12 @@ const noFaceFoundElement = document.getElementById('no-face-found');
 
 const drawingUtils = window;
 let tfliteModel;
+let isModelLoaded = false;
 
 async function loadModel() {
     try {
         tfliteModel = await tf.loadLayersModel("./static/model/uint8/model.json");
+        isModelLoaded = true;
         console.log("Model loaded successfully!");
     } catch (error) {
         console.error("Failed to load the model:", error);
@@ -19,8 +21,9 @@ async function loadModel() {
 
 async function start() {
     await loadModel();
-    openCvReady();
 }
+
+start();
 
 function openCvReady() {
     cv['onRuntimeInitialized'] = () => {
@@ -54,7 +57,7 @@ function openCvReady() {
                     canvasCtx.fillStyle = "red";
                     canvasCtx.textAlign = "center";
 
-                    if (tfliteModel) {
+                    if (tfliteModel && isModelLoaded) {
                         // Perform the prediction
                         const outputTensor = tf.tidy(() => {
                             // Transform the image data into Array pixels.
@@ -84,7 +87,7 @@ function openCvReady() {
                         // Hide the "No face found" message
                         noFaceFoundElement.style.display = 'none';
                     } else {
-                        canvasCtx.fillText("Model not loaded", center, sy - 50);
+                        canvasCtx.fillText("Loading the model", center, sy - 50);
                     }
                 } else {
                     // No face detected
@@ -121,7 +124,10 @@ function openCvReady() {
         });
 
         camera.start();
-    };
+    }
 }
 
-start();
+// Call the openCvReady function after start to ensure the model is loaded
+start().then(() => {
+    openCvReady();
+});
