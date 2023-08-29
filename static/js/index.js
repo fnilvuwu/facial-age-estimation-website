@@ -21,7 +21,7 @@ async function start() {
     await loadModel();
 }
 
-start();
+await start();
 
 function openCvReady() {
     cv['onRuntimeInitialized'] = () => {
