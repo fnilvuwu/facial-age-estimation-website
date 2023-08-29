@@ -85,6 +85,7 @@ function openCvReady() {
                         }
 
                         // Hide the "No face found" message
+                        roiCtx.style.display = 'block';
                         noFaceFoundElement.style.display = 'none';
                     } else {
                         canvasCtx.fillText("Loading the model", center, sy - 50);
@@ -92,6 +93,7 @@ function openCvReady() {
                 } else {
                     // No face detected
                     roiCtx.clearRect(0, 0, canvasRoi.width, canvasRoi.height);
+                    roiCtx.style.display = 'none';
                     noFaceFoundElement.style.display = 'block';
                 }
                 canvasCtx.restore();
