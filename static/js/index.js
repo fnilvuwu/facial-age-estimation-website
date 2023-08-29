@@ -19,9 +19,8 @@ async function loadModel() {
 
 async function start() {
     await loadModel();
+    openCvReady();
 }
-
-await start();
 
 function openCvReady() {
     cv['onRuntimeInitialized'] = () => {
@@ -122,10 +121,7 @@ function openCvReady() {
         });
 
         camera.start();
-    }
+    };
 }
 
-// Call the openCvReady function after start to ensure the model is loaded
-start().then(() => {
-    await openCvReady();
-});
+start();
