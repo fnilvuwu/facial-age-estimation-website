@@ -15,7 +15,7 @@ const predictionInterval = 500; // 5 seconds
 // Load TensorFlow.js model
 async function loadModel() {
     try {
-        tfliteModel = await tf.loadLayersModel("/static/model/uint8/model.json");
+        tfliteModel = await tf.loadLayersModel("./static/model/uint8/model.json");
         isModelLoaded = true;
         console.log("Model loaded successfully!");
     } catch (error) {
